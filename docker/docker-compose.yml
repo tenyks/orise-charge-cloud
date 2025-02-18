@@ -155,7 +155,7 @@ services:
       RABBITMQ_DEFAULT_PASS: omind2023
     ports:
       - "15672:15672" # 管理界面端口
-      - "5672:5672"   # api 端口
+      - "25672:25672"   # api 端口
     volumes:
       - /usr/local/omind/docker/rabbitmq/log:/var/log/rabbitmq
       - /usr/local/omind/docker/rabbitmq/data:/var/lib/rabbitmq
