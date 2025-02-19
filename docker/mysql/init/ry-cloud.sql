@@ -99,7 +99,7 @@ CREATE TABLE `sys_area` (
   `update_by_id` bigint DEFAULT NULL COMMENT '更新人id',
   `del_flag` tinyint NOT NULL DEFAULT '0' COMMENT '删除标识 0 正常 1 删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='行政区划';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='行政区划';
 
 -- ----------------------------
 -- Records of sys_area

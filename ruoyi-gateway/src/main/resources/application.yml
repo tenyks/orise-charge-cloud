@@ -22,11 +22,11 @@ spring:
       discovery:
         # 注册组
         group: @nacos.discovery.group@
-        namespace: ${spring.profiles.active}
+        namespace: 37c2d0ef-a221-48dd-a0bc-86a504d4a493
       config:
         # 配置组
         group: @nacos.config.group@
-        namespace: ${spring.profiles.active}
+        namespace: 37c2d0ef-a221-48dd-a0bc-86a504d4a493
   config:
     import:
       - optional:nacos:application-common.yml
