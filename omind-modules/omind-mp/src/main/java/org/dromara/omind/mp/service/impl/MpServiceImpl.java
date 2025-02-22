@@ -4,6 +4,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.util.WxMaConfigHolder;
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.log4j.Log4j2;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -55,7 +56,9 @@ public class MpServiceImpl implements MpService {
             String unionId = session.getUnionid();
             String openId = session.getOpenid();
             if(TextUtils.isBlank(unionId)){
-                return R.fail(HttpStatus.UNAUTHORIZED, "unionId获取失败");
+//                return R.fail(HttpStatus.UNAUTHORIZED, "unionId获取失败");
+                log.warn("[WX]unionId获取失败，试用openId代替");
+                unionId = openId;
             }
             OmindUserEntity userEntity = userService.getUserByUnionId(unionId);
             if(userEntity == null){

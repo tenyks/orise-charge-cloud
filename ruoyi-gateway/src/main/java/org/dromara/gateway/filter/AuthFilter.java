@@ -10,6 +10,8 @@ import org.dromara.common.core.constant.HttpStatus;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.gateway.config.properties.IgnoreWhiteProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -22,6 +24,8 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 @Configuration
 public class AuthFilter {
 
+    private static final Logger log = LoggerFactory.getLogger(AuthFilter.class);
+
     /**
      * 注册 Sa-Token 全局过滤器
      */
@@ -33,15 +37,22 @@ public class AuthFilter {
             .addExclude("/favicon.ico", "/actuator/**")
             // 鉴权方法：每次访问进入
             .setAuth(obj -> {
+                // 小程序侧 -- 拦截所有路由
+
                 // 登录校验 -- 拦截所有路由
                 SaRouter.match("/**")
                     .notMatch(ignoreWhite.getWhites())
                     .check(r -> {
+                        ServerHttpRequest request = SaReactorSyncHolder.getContext().getRequest();
+                        String token = request.getHeaders().getFirst("token");
+                        String accessToken = request.getHeaders().getFirst("accessToken");
+                        if (token != null || accessToken != null) return ;
+
                         // 检查是否登录 是否有token
                         StpUtil.checkLogin();
 
                         // 检查 header 与 param 里的 clientid 与 token 里的是否一致
-                        ServerHttpRequest request = SaReactorSyncHolder.getContext().getRequest();
+//                        ServerHttpRequest request = SaReactorSyncHolder.getContext().getRequest();
                         String headerCid = request.getHeaders().getFirst(LoginHelper.CLIENT_KEY);
                         String paramCid = request.getQueryParams().getFirst(LoginHelper.CLIENT_KEY);
                         String clientId = StpUtil.getExtra(LoginHelper.CLIENT_KEY).toString();
@@ -60,6 +71,7 @@ public class AuthFilter {
                     });
             }).setError(e -> {
                 if (e instanceof NotLoginException) {
+                    log.error("[Auth]认证不通过：", e);
                     return SaResult.error(e.getMessage()).setCode(HttpStatus.UNAUTHORIZED);
                 }
                 return SaResult.error("认证失败，无法访问系统资源").setCode(HttpStatus.UNAUTHORIZED);

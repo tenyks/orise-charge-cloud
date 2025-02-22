@@ -174,7 +174,7 @@ public class TenantHelper {
         if (StringUtils.isBlank(tenantId)) {
             tenantId = LoginHelper.getTenantId();
         }
-        return tenantId;
+        return (tenantId != null ? tenantId : "000000");
     }
 
     private static boolean isLogin() {

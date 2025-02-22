@@ -57,7 +57,7 @@ public class WxProperties {
     private String keyPath;
 
     /**
-     * 支付是否支持沙河环境
+     * 支付是否支持沙箱环境
      */
     @Value("${wx.pay.isSandbox}")
     private Boolean isSandbox;
