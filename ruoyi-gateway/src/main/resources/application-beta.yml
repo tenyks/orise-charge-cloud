@@ -1,0 +1,20 @@
+# Tomcat
+server:
+  port: 18080
+
+--- # nacos 配置
+spring:
+  cloud:
+    nacos:
+      # nacos 服务地址
+      server-addr: ORiseServer:8848
+      username: nacos
+      password: 3tdsQNMFB9fOJ4CLBjmQ
+      discovery:
+        # 注册组
+        group: DEFAULT_GROUP
+        namespace: 37c2d0ef-a221-48dd-a0bc-86a504d4a493
+      config:
+        # 配置组
+        group: DEFAULT_GROUP
+        namespace: 37c2d0ef-a221-48dd-a0bc-86a504d4a493
